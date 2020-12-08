@@ -2,13 +2,12 @@ package com.adm;
 
 
 import java.util.Random;
-
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
-
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
-import principal.Home;
+import totalcross.ui.Button;
+import principal.Solucao;
 import totalcross.sys.Convert;
 import totalcross.ui.ComboBox;
 import totalcross.ui.Edit;
@@ -34,13 +33,13 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 	public Edit					editCnpj;
 	private Label 				lblCategoria;
 	private ComboBox			cmbCategoria;
-	public ArtButton		    btnCadastrar;
-	public ArtButton			btnGerarCodigo;
-	public ArtButton 			btnVoltar;
+	public Button		    btnCadastrar;
+	public Button			btnGerarCodigo;
+	public Button 			btnVoltar;
 	public ImageControl		    imgCadastrarEmpresa;
 
 	public CadastrarProdutoSistema() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 		carregaCmbCategoria();
 	}
@@ -56,53 +55,51 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 			
 			lblProduto = new Label("PRODUTO: ");
 			add(lblProduto);
-			lblProduto.setBackColor(0x003366);
+			lblProduto.setBackColor(0x1c355d);
 			lblProduto.setForeColor(Color.WHITE);
 			lblProduto.setRect(LEFT, AFTER + 30, PREFERRED, PREFERRED, imgCadastrarEmpresa);
 
 			add(editProduto = new Edit(), LEFT, AFTER, PREFERRED, PREFERRED, lblProduto);
 			editProduto.setBackColor(Color.WHITE);
 			editProduto.capitalise = (Edit.ALL_UPPER);
-			editProduto.setForeColor(0x003366);
+			editProduto.setForeColor(0x1c355d);
 
 			lblCategoria = new Label("CATEGORIA:");
 			add(lblCategoria);
 			lblCategoria.setRect(LEFT, AFTER + 40, PREFERRED, PREFERRED, editProduto);
-			lblCategoria.setBackColor(0x003366);
+			lblCategoria.setBackColor(0x1c355d);
 			lblCategoria.setForeColor(Color.WHITE);
 			
 			cmbCategoria = new ComboBox();
 			add(cmbCategoria);
 			cmbCategoria.setRect(LEFT, AFTER, FILL + 5, PREFERRED, lblCategoria);
 			
-			btnGerarCodigo = new ArtButton("CÓDIGO");
+			btnGerarCodigo = new Button("CÓDIGO");
 			add(btnGerarCodigo);
 			btnGerarCodigo.setRect(LEFT, AFTER + 40, SCREENSIZE - 5, PREFERRED, cmbCategoria);
-			btnGerarCodigo.setBackColor(0x003366);
+			btnGerarCodigo.setBackColor(0x1c355d);
 			btnGerarCodigo.setForeColor(Color.WHITE);	
 			
 			add(editCodigo = new Edit(), LEFT, AFTER + 10, PREFERRED, PREFERRED);
 			editCodigo.setBackColor(Color.WHITE);
-			editCodigo.setForeColor(0x003366);
+			editCodigo.setForeColor(0x1c355d);
 			editCodigo.setEditable(false);
 			
-			btnCadastrar = new ArtButton("CADASTRAR");
-			add(btnCadastrar);
-			btnCadastrar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnCadastrar.setBackColor(0x009933);
+			btnCadastrar = BottomImg.imageWithText(new Image("img/cadastrarProdutoSistema.png"), "Cadastrar", Button.BOTTOM);
+			add(btnCadastrar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnCadastrar.setBackColor(0x1c355d);
 			btnCadastrar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
 
 			reposition();
 			editProduto.requestFocus();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao construir o menu CadastrarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao construir o menu CadastrarProdutoSistema\n" + e);
 
 		}
 
@@ -122,18 +119,18 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 
 					if (editProduto.getText().equals("") || editCodigo.getText().equals("")
 							|| cmbCategoria.getSelectedItem() == "") {
-						Auxiliares.artMsgbox("CONTROLE", "Preencha todos os campos!");
+						Auxiliares.messagebox("SOLUCAO", "Preencha todos os campos!");
 						return;
 					}
 
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja cadastrar esse produto no sistema?", ArtButtonArray);
+					int i = Auxiliares.messageBox("SOLUCAO", "Deseja cadastrar esse produto no sistema?", ArtButtonArray);
 
 					if (i == 1) {
 						return;
 
 					} else {
 						cadastrarProdutoSistema();
-						Auxiliares.artMsgbox("CONTROLE", "Produto cadastrado com sucesso!");
+						Auxiliares.messagebox("SOLUCAO", "Produto cadastrado com sucesso!");
 						unpop();
 
 					}
@@ -147,7 +144,7 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("CONTROLE", "Erro na validação do menu CadastrarProdutoSistema\n " + e);
+			Auxiliares.messagebox("SOLUCAO", "Erro na validação do menu CadastrarProdutoSistema\n " + e);
 		}
 
 	}
@@ -172,7 +169,7 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
 
 			return;
 		}
@@ -204,7 +201,7 @@ public class CadastrarProdutoSistema extends totalcross.ui.Window {
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregaCmbCategoria\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao carregaCmbCategoria\n" + e);
 
 			}
 

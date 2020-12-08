@@ -3,8 +3,9 @@ package com.adm;
 
 import java.util.Random;
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
-import nx.componentes.ArtButton;
+import totalcross.ui.Button;
 import totalcross.sys.Convert;
 import totalcross.ui.ComboBox;
 import totalcross.ui.Edit;
@@ -32,14 +33,14 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 	public Radio				radioDescricaoPeso;	
 	public RadioGroupController radioGrupo;
 	
-	public ArtButton		    btnCadastrar;
-	public ArtButton			btnGerarCodigo;
-	public ArtButton 			btnVoltar;
+	public Button		    btnCadastrar;
+	public Button			btnGerarCodigo;
+	public Button 			btnVoltar;
 	
 	public ImageControl		    imgCadastrarEmpresa;
 
 	public CadastrarDescricaoSistema() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 	}
 
@@ -56,53 +57,53 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 			
 			lblDescricao = new Label("DESCRICAO: ");
 			add(lblDescricao);
-			lblDescricao.setBackColor(0x003366);
+			lblDescricao.setBackColor(0x1c355d);
 			lblDescricao.setForeColor(Color.WHITE);
 			lblDescricao.setRect(LEFT, AFTER, PREFERRED, PREFERRED, imgCadastrarEmpresa);
 
 			add(editDescricao = new Edit(), LEFT, AFTER, PREFERRED, PREFERRED, lblDescricao);
 			editDescricao.setBackColor(Color.WHITE);
 			editDescricao.capitalise = (Edit.ALL_UPPER);
-			editDescricao.setForeColor(0x003366);
+			editDescricao.setForeColor(0x1c355d);
 			
-			btnGerarCodigo = new ArtButton("CÓDIGO");
+			btnGerarCodigo = new Button("CÓDIGO");
 			add(btnGerarCodigo);
 			btnGerarCodigo.setRect(LEFT, AFTER + 40, SCREENSIZE - 5, PREFERRED, editDescricao);
-			btnGerarCodigo.setBackColor(0x003366);
+			btnGerarCodigo.setBackColor(0x1c355d);
 			btnGerarCodigo.setForeColor(Color.WHITE);	
 			
 			add(editCodigo = new Edit(), LEFT, AFTER + 10, PREFERRED, PREFERRED,btnGerarCodigo);
 			editCodigo.setBackColor(Color.WHITE);
-			editCodigo.setForeColor(0x003366);
+			editCodigo.setForeColor(0x1c355d);
 			editCodigo.setEditable(false);
 
 			radioDescricaoPeso = new Radio("GM-KL",radioGrupo);
 			add(radioDescricaoPeso);
 			radioDescricaoPeso.setRect(RIGHT - 5, AFTER + 20, PREFERRED, PREFERRED, editCodigo);
 			radioDescricaoPeso.setForeColor(Color.WHITE);
+			radioDescricaoPeso.setBackColor(0x1c355d);
 			
 			radioDescricao = new Radio("ML-LT",radioGrupo);
 			add(radioDescricao);
 			radioDescricao.setRect(BEFORE - 15, SAME, PREFERRED, PREFERRED, radioDescricaoPeso);
 			radioDescricao.setForeColor(Color.WHITE);
+			radioDescricao.setBackColor(0x1c355d);
 			
-			btnCadastrar = new ArtButton("CADASTRAR");
-			add(btnCadastrar);
-			btnCadastrar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnCadastrar.setBackColor(0x009933);
+			btnCadastrar = BottomImg.imageWithText(new Image("img/cadastrarProdutoSistema.png"), "Cadastrar", Button.BOTTOM);
+			add(btnCadastrar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnCadastrar.setBackColor(0x1c355d);
 			btnCadastrar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
 			
 			reposition();
 			editDescricao.requestFocus();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao construir o menu CadastrarDescricaoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao construir o menu CadastrarDescricaoSistema\n" + e);
 
 		}
 
@@ -121,16 +122,16 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 					String[] ArtButtonArray = { "Sim", "Não" };
 
 					if (editDescricao.getText().equals("")) {
-						Auxiliares.artMsgbox("CONTROLE", "Preencha todos os campos!");
+						Auxiliares.messagebox("SOLUCAO", "Preencha todos os campos!");
 						return;
 					}
 
 					if (!radioDescricao.isChecked() && !radioDescricaoPeso.isChecked()) {
-						Auxiliares.artMsgbox("CONTROLE", "É preciso marcar alguma opção\n'ML-LT' ou 'GM-KL'!");
+						Auxiliares.messagebox("SOLUCAO", "É preciso marcar alguma opção\n'ML-LT' ou 'GM-KL'!");
 						return;
 					}
 
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja cadastrar essa descrição no sistema?",
+					int i = Auxiliares.messageBox("SOLUCAO", "Deseja cadastrar essa descrição no sistema?",
 							ArtButtonArray);
 
 					if (i == 1) {
@@ -138,7 +139,7 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 
 					} else {
 						cadastraDescricao();
-						Auxiliares.artMsgbox("CONTROLE", "Descrição cadastrada com sucesso!");
+						Auxiliares.messagebox("SOLUCAO", "Descrição cadastrada com sucesso!");
 						unpop();
 
 					}
@@ -152,7 +153,7 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("CONTROLE", "Erro na validação do menu CadastrarDescricaoSistema\n " + e);
+			Auxiliares.messagebox("Erro", "Erro na validação do menu CadastrarDescricaoSistema\n " + e);
 		}
 
 	}
@@ -185,7 +186,7 @@ public class CadastrarDescricaoSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
 
 			return;
 		}

@@ -4,7 +4,6 @@ package com.configuracoes;
 import com.auxiliares.Auxiliares;
 import com.litebase.LitebasePack;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
 import totalcross.sys.Convert;
 import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
@@ -13,6 +12,7 @@ import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
+import totalcross.ui.Button;
 
 public class InfoEmpresa extends totalcross.ui.Window {
 
@@ -26,7 +26,7 @@ public class InfoEmpresa extends totalcross.ui.Window {
 	public Edit 				editEmpresa;
 	public Edit 				editCnpj;
 	public ImageControl			imgInfo;
-	public ArtButton 			btnVoltar;
+	public Button 			btnVoltar;
 
 	public InfoEmpresa() {
 		setBackColor(0x003366);
@@ -92,7 +92,7 @@ public class InfoEmpresa extends totalcross.ui.Window {
 			editCodigo.setForeColor(0x003366);
 			editCodigo.setEditable(false);
 
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 			add(btnVoltar);
 			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnVoltar.setBackColor(0x003366);
@@ -103,7 +103,7 @@ public class InfoEmpresa extends totalcross.ui.Window {
 			consultarEmpresa();
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela infoEmpresa\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela infoEmpresa\n" + e);
 
 		}
 
@@ -123,7 +123,7 @@ public class InfoEmpresa extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela infoEmpresa\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela infoEmpresa\n" + e);
 		}
 
 	}
@@ -156,7 +156,7 @@ public class InfoEmpresa extends totalcross.ui.Window {
 			
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro consultarEmpresa\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro consultarEmpresa\n" + e);
 		}
 	}
 

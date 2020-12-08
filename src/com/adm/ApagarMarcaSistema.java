@@ -1,30 +1,41 @@
 package com.adm;
 
+
+import java.util.Random;
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
+import totalcross.ui.Button;
 import totalcross.ui.ComboBox;
+import totalcross.sys.Convert;
+import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
 import totalcross.ui.Label;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
-import totalcross.ui.event.PenEvent;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
 
 public class ApagarMarcaSistema extends totalcross.ui.Window {
 
-	private Label				lblAviso;
-	private ComboBox			cmbMarca;
-	private ArtButton			btnApagar;
-	private ArtButton 			btnVoltar;  
-	private ImageControl		imgApagarEmpresa;
+	public Label 				lblCategoria;
+	public Label 				lblUsuario;
+	public Label				lblCodigo;
 	
-	private int					codigoMarca = 0;
+	public Edit					editCodigo;
+	public Edit					editCategoria;
+	
+	public Button		   		btnApagar;
+	public Button				btnGerarCodigo;
+	public Button 				btnVoltar;
+	
+	private ComboBox			cmbMarca;
+	
+	public ImageControl		    imgApagarMarca;
 
 	public ApagarMarcaSistema() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 	}
 
@@ -32,37 +43,32 @@ public class ApagarMarcaSistema extends totalcross.ui.Window {
 
 		try {
 			
-			lblAviso = new Label("POR FAVOR SELECIONE A MARCA QUE DESEJA\n APAGAR DO SISTEMA:");
-			add(lblAviso);
-			lblAviso.setRect(CENTER, TOP + 2, PREFERRED, PREFERRED);
-			lblAviso.setBackColor(0x003366);
-			lblAviso.setForeColor(Color.WHITE);
-			
-			imgApagarEmpresa = new ImageControl(new Image("img/apagarProduto.png"));
-			imgApagarEmpresa.scaleToFit = true;
-			imgApagarEmpresa.centerImage = true;
-			add(imgApagarEmpresa, CENTER, AFTER - 5, SCREENSIZE + 20, SCREENSIZE + 40,lblAviso);
-			
+			imgApagarMarca = new ImageControl(new Image("img/cadastrarMarca.png"));
+			imgApagarMarca.scaleToFit = true;
+			imgApagarMarca.centerImage = true;
+			add(imgApagarMarca, CENTER, TOP - 40, SCREENSIZE + 40, SCREENSIZE + 40);
+
 			cmbMarca = new ComboBox();
 			add(cmbMarca);
-			cmbMarca.setRect(LEFT + 90, AFTER + 30, FILL - 90, PREFERRED, imgApagarEmpresa);		
+			cmbMarca.setRect(CENTER, AFTER - 20, SCREENSIZE + 80, SCREENSIZE + 4, imgApagarMarca);
 			
-			btnApagar = new ArtButton("APAGAR");
-			add(btnApagar);
-			btnApagar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnApagar.setBackColor(0xDF0101);
+			btnApagar = BottomImg.imageWithText(new Image("img/apagarProdutos.png"), "Apagar", Button.BOTTOM);
+			add(btnApagar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnApagar.setBackColor(0x1c355d);
 			btnApagar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
+			
+			carregaCmbMarca();
 			
 			reposition();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao construir a tela ApagarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao construir o menu ApagarMarcaSistema\n" + e);
+
 		}
 
 	}
@@ -77,79 +83,74 @@ public class ApagarMarcaSistema extends totalcross.ui.Window {
 					unpop();
 
 				} else if (evt.target == btnApagar) {
+					String[] ArtButtonArray = { "Sim", "Não" };
 
-					if (cmbMarca.getSelectedIndex() == -1) {
-
-						Auxiliares.artMsgbox("CONTROLE", "Selecione uma marca!");
+					if (cmbMarca.getSelectedItem() == null) {
+						Auxiliares.messagebox("SOLUCAO", "Por favor selecione uma marca!");
 						return;
 					}
 
-					String[] ArtButtonArray = { "Sim", "Não" };
-
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja apagar essa marca?", ArtButtonArray);
+					int i = Auxiliares.messageBox("SOLUCAO", "Deseja apagar essa marca do sistema?",
+							ArtButtonArray);
 
 					if (i == 1) {
 						return;
 
 					} else {
-
-						apagarMarca();
-						Auxiliares.artMsgbox("CONTROLE", "Marca apagado do sistema!");
+						apagaMarcaSistema();
+						Auxiliares.messagebox("SOLUCAO", "Marca apagada com sucesso!");
+						unpop();
 
 					}
-
-				} else if (evt.target == cmbMarca) {
-					buscaCodigoMarca();
-				}
-				break;
-
-			case PenEvent.PEN_DOWN:
-
-				if (evt.target == cmbMarca) {
-
-					cmbMarca.removeAll();
-					carregaCmbMarca();
+				} else if (evt.target == btnGerarCodigo) {
+					Random random = new Random();
+					int codigo = random.nextInt(900);
+					editCodigo.setText(Convert.toString(codigo));
 
 				}
+
 			}
-			
+
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação evento ApagarProdutoSistema\n " + e);
+			Auxiliares.messagebox("SOLUCAO", "Erro na validação do menu CadastrarMarcaSistema\n " + e);
 		}
 
 	}
 	
 	public void carregaCmbMarca() {
+		{
 			String sql = "";
 			LitebasePack lb = null;
 			ResultSet rs = null;
- 
+
 			try {
 				try {
+					cmbMarca.removeAll();
 					lb = new LitebasePack();
-					sql = " SELECT CODIGO, PRODUTO FROM PRODUTO";
+					sql = " SELECT DESCRICAO FROM MARCA";
 
 					rs = lb.executeQuery(sql);
-					rs.first();			
-				for (int i = 0; rs.getRowCount() > i; i++) {
-					String[] b = new String[1];
-					b[0] = rs.getString("PRODUTO");
-					cmbMarca.add(b);
-					rs.next();
-				}
+					rs.first();
+					for (int i = 0; rs.getRowCount() > i; i++) {
+						String[] b = new String[1];
+						b[0] = rs.getString("DESCRICAO");
+						cmbMarca.add(b);
+						rs.next();
+					}
 				} finally {
 					if (lb != null)
 						lb.closeAll();
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregar carregaCmbProduto\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao carregaCmbMarca\n" + e);
 
 			}
 
 		}
+	}
 	
-	public void apagarMarca() {
+	public void apagaMarcaSistema() {
 		String sql = "";
 		LitebasePack lb = null;
 
@@ -157,9 +158,9 @@ public class ApagarMarcaSistema extends totalcross.ui.Window {
 
 			try {
 				lb = new LitebasePack();
-				
-				sql = " DELETE FROM PRODUTO " 
-				    + " WHERE PRODUTO = "	+ "'" + cmbMarca.getSelectedItem() + "'";
+
+				sql = "DELETE FROM MARCA WHERE DESCRICAO = '" + cmbMarca.getSelectedItem() + "'";
+
 				lb.executeUpdate(sql);
 
 			} finally {
@@ -168,43 +169,10 @@ public class ApagarMarcaSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao apagarProduto\n"+ e);			
-			unpop();
+			Auxiliares.messagebox("ERRO", "Erro ao buscar apagaMarcaSistema\n" + e);
+
+			return;
 		}
-	}
-	
-	public void buscaCodigoMarca() {
-		String sql = "";
-		LitebasePack lb = null;
-		ResultSet rs = null;
-
-		try {
-			try {
-				lb = new LitebasePack();
-				sql = " SELECT CODIGO, PRODUTO FROM PRODUTO "
-					+ " WHERE PRODUTO = "	+ "'" + cmbMarca.getSelectedItem() + "'";
-
-				rs = lb.executeQuery(sql);
-				rs.first();			
-				setCodigoMarca(rs.getInt("CODIGO"));
-			} finally {
-				if (lb != null)
-					lb.closeAll();
-
-			}
-		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro buscaCodigoDoProduto\n" + e);
-
-		}
-
-	}
-
-	public int getCodigoMarca() {
-		return codigoMarca;
-	}
-
-	public void setCodigoMarca(int codigoMarca) {
-		this.codigoMarca = codigoMarca;
 	}
 
 }

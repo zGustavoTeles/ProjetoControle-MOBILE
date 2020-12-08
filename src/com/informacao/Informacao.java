@@ -1,13 +1,12 @@
 package com.informacao;
 
 import com.auxiliares.Auxiliares;
-
-import nx.componentes.ArtButton;
 import totalcross.ui.Label;
 import totalcross.ui.MultiEdit;
 import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
+import totalcross.ui.Button;
 import totalcross.ui.gfx.Color;
 
 public class Informacao extends totalcross.ui.Window{
@@ -17,7 +16,7 @@ public class Informacao extends totalcross.ui.Window{
     private Label							lblSobre;
     private Label							lblCopyright;
     private MultiEdit						editInformacao;
-	private ArtButton 						btnVoltar;
+	private Button 						btnVoltar;
 	private int 							linha = 6;
 	private int							    dist = 1;
 	
@@ -76,7 +75,7 @@ public class Informacao extends totalcross.ui.Window{
 			lblVersao.setBackColor(0x003366);
 			lblVersao.setForeColor(Color.WHITE);  
 
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 	        add(btnVoltar);
 	        btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 	        btnVoltar.setBackColor(0x003366);
@@ -85,7 +84,7 @@ public class Informacao extends totalcross.ui.Window{
 	        reposition();
 	        
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela informacao\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela informacao\n" + e);
 
 		}
 		
@@ -100,7 +99,7 @@ public class Informacao extends totalcross.ui.Window{
 				}
 			}
 		}catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela informacao\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela informacao\n" + e);
 			}
 			
 			

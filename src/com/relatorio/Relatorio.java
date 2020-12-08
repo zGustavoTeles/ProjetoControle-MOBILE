@@ -2,10 +2,11 @@ package com.relatorio;
 
 import com.agenda.Agenda;
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
+import com.cellcontroller6.CellController6;
 import com.litebase.LitebasePack;
-import com.venda.Venda;
+import com.venda.Loja;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
 import totalcross.sys.Convert;
 import totalcross.ui.Button;
 import totalcross.ui.Container;
@@ -18,6 +19,7 @@ import totalcross.ui.event.Event;
 import totalcross.ui.event.GridEvent;
 import totalcross.ui.event.PenEvent;
 import totalcross.ui.gfx.Color;
+import totalcross.ui.image.Image;
 import totalcross.util.Date;
 import totalcross.sys.Settings;
 
@@ -29,10 +31,10 @@ public class Relatorio extends totalcross.ui.Window{
 	private Edit							editTotal;
 	private Edit							editDataUm;
 	private Edit							editDataDois;
-	private Grid							gridProdutos;
-	private ArtButton 						btnVoltar;
-	private ArtButton						btnBuscar;
-	private ArtButton						btnDetalhar;
+	private Grid							gridVendas;
+	private Button 						    btnVoltar;
+	private Button						    btnBuscar;
+	private Button						    btnDetalhar;
 	
 	public String							dataI;
 	public String							dataII;
@@ -48,7 +50,7 @@ public class Relatorio extends totalcross.ui.Window{
 	public static String  					categoria;
 	
 	public Relatorio(){
-		 setBackColor(0x003366);
+		 setBackColor(0x1c355d);
 		 initUI();
 	}
 	
@@ -59,58 +61,56 @@ public class Relatorio extends totalcross.ui.Window{
 			lblData = new Label("DATA: ");
 			add(lblData);
 			lblData.setRect(LEFT, TOP + 5, PREFERRED, PREFERRED);
-			lblData.setBackColor(0x003366);
+			lblData.setBackColor(0x1c355d);
 			lblData.setForeColor(Color.WHITE);
 
 			editDataUm = new Edit();
 			add(editDataUm);
 			editDataUm.setRect(AFTER + 2, SAME, SCREENSIZE - 4, PREFERRED, lblData);
 			editDataUm.setBackColor(Color.WHITE);
-			editDataUm.setForeColor(0x003366);
+			editDataUm.setForeColor(0x1c355d);
 
 			lblA = new Label(" Á ");
 			add(lblA);
 			lblA.setRect(AFTER + 2, SAME, PREFERRED, PREFERRED, editDataUm);
-			lblA.setBackColor(0x003366);
+			lblA.setBackColor(0x1c355d);
 			lblA.setForeColor(Color.WHITE);
 
 			editDataDois = new Edit();
 			add(editDataDois);
 			editDataDois.setRect(AFTER + 2, SAME, SCREENSIZE - 4, PREFERRED, lblA);
 			editDataDois.setBackColor(Color.WHITE);
-			editDataDois.setForeColor(0x003366);
+			editDataDois.setForeColor(0x1c355d);
 
-			btnBuscar = new ArtButton("BUSCAR");
+			btnBuscar = new Button("BUSCAR");
 			add(btnBuscar);
-			btnBuscar.setRect(AFTER + 5 , SAME, SCREENSIZE - 5, PREFERRED, editDataDois);
-			btnBuscar.setBackColor(0x003366);
+			btnBuscar.setRect(AFTER + 5, SAME, SCREENSIZE - 5, PREFERRED, editDataDois);
+			btnBuscar.setBackColor(0x1c355d);
 			btnBuscar.setForeColor(Color.WHITE);
-			
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, PREFERRED + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
-			
-			btnDetalhar = new ArtButton("DETALHAR");
-			add(btnDetalhar);
-			btnDetalhar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnDetalhar.setBackColor(0xDF7401);
+
+			btnDetalhar = BottomImg.imageWithText(new Image("img/detalharVendas.png"), "Detalhar", Button.BOTTOM);
+			add(btnDetalhar, LEFT, BOTTOM, SCREENSIZE + 25, PREFERRED + 10);
+			btnDetalhar.setBackColor(0x1c355d);
 			btnDetalhar.setForeColor(Color.WHITE);
-			
+
 			editQuantidade = new Edit();
 			add(editQuantidade);
 			editQuantidade.setEditable(false);
 			editQuantidade.setRect(LEFT + 2, BEFORE - 40, SCREENSIZE - 2, PREFERRED, btnDetalhar);
-			editQuantidade.setBackColor(0x003366);
+			editQuantidade.setBackColor(0x1c355d);
 			editQuantidade.setForeColor(Color.BLACK);
 			editQuantidade.setText("QUANTIDADE:");
-			
+
 			editTotal = new Edit();
 			add(editTotal);
 			editTotal.setEditable(false);
 			editTotal.setRect(RIGHT - 5, BEFORE - 40, SCREENSIZE - 2, PREFERRED, btnVoltar);
-			editTotal.setBackColor(0x003366);
+			editTotal.setBackColor(0x1c355d);
 			editTotal.setForeColor(Color.BLACK);
 			editTotal.setText("TOTAL: R$");
 
@@ -126,26 +126,33 @@ public class Relatorio extends totalcross.ui.Window{
 			gridWidths[8] = 140;
 
 			String[] caps = { "DATA", "COD.", "PRODUTO", "MARCA", "DESC.", "QNT", "TIPO.PAG.", "CATEGORIA", "VALOR" };
-			int[] aligns = { Grid.LEFT, Grid.CENTER, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT };
-			gridProdutos = new Grid(caps, gridWidths, aligns, false);
-			add(gridProdutos);
-			gridProdutos.setBackColor(Color.WHITE);
-			gridProdutos.setForeColor(0x003366);
-			gridProdutos.transparentBackground = false;
-			gridProdutos.setBorderStyle(totalcross.ui.Container.BORDER_NONE);
-			gridProdutos.verticalLineStyle = totalcross.ui.Grid.VERT_LINE;
-			gridProdutos.drawCheckBox = true;
-			gridProdutos.disableSort = false;
-			gridProdutos.canClickSelectAll = true;
-			gridProdutos.boldCheck = false;
-			gridProdutos.enableColumnResize = false;
-			gridProdutos.setRect(Container.LEFT + 1, Container.AFTER + 10, Container.FILL - 1, Container.FIT, lblData);
-			
+			int[] aligns = { Grid.LEFT, Grid.CENTER, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT, Grid.LEFT,
+					Grid.LEFT };
+			gridVendas = new Grid(caps, gridWidths, aligns, false);
+			add(gridVendas);
+			gridVendas.enableColumnResize = true;
+			gridVendas.secondStripeColor = Color.getRGB(255, 255, 255);
+			gridVendas.setBackColor(Auxiliares.backColorGridNovo);
+			gridVendas.setForeColor(Auxiliares.defaultForeColorGridNovo);
+			gridVendas.transparentBackground = false;
+			gridVendas.setBorderStyle(totalcross.ui.Container.BORDER_NONE);
+			gridVendas.verticalLineStyle = totalcross.ui.Grid.VERT_LINE;
+			gridVendas.drawCheckBox = true;
+			gridVendas.disableSort = false;
+			gridVendas.boldCheck = false;
+			gridVendas.captionsBackColor = Auxiliares.captionsBackColorNovo;
+			gridVendas.checkColor = Auxiliares.checkColorNovo;
+			gridVendas.firstStripeColor = Auxiliares.firstStripeColorNovo;
+			gridVendas.enableColumnResize = false;
+			gridVendas.setFont(Auxiliares.getFontNormal().asBold());
+			gridVendas.secondStripeColor = Auxiliares.secondStripeColorNovo;
+			gridVendas.setCellController(new CellController6());
+			gridVendas.setRect(Container.LEFT + 1, Container.AFTER + 10, Container.FILL - 1, Container.FIT, lblData);
+
 			reposition();
 
-			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela relatorio\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela relatorio\n" + e);
 
 		}
 		
@@ -162,15 +169,15 @@ public class Relatorio extends totalcross.ui.Window{
 				} else if (evt.target == btnBuscar) {
 					if (editDataUm.getText().equals("") || editDataDois.getText().equals("")) {
 
-						Auxiliares.artMsgbox("CONTROLE", "Preencha todos os campos de data à serem pesquisados!");
+						Auxiliares.messagebox("SOLUCAO", "Preencha todos os campos de data à serem pesquisados!");
 						return;
 
 					} else {
 						pesquisaVendasPorPeriodo();
 					}
 				} else if (evt.target == btnDetalhar) {
-					if (gridProdutos.getSelectedItem() == null) {
-						Auxiliares.artMsgbox("CONTROLE", "Deve-se selecionar uma venda!");
+					if (gridVendas.getSelectedItem() == null) {
+						Auxiliares.messagebox("SOLUCAO", "Deve-se selecionar uma venda!");
 						return;
 					} else {
 						DetalharVenda detalharVenda = new DetalharVenda();
@@ -189,22 +196,22 @@ public class Relatorio extends totalcross.ui.Window{
 				}
 				break;
 			case GridEvent.SELECTED_EVENT:
-				if (evt.target == gridProdutos) {
+				if (evt.target == gridVendas) {
 
 					try {
 
-						dataVenda = gridProdutos.getSelectedItem()[0];
-						codigoVenda = gridProdutos.getSelectedItem()[1];
-						produto = gridProdutos.getSelectedItem()[2];
-						marca = gridProdutos.getSelectedItem()[3];
-						descricao = gridProdutos.getSelectedItem()[4];
-						quantidade = gridProdutos.getSelectedItem()[5];
-						tipoPagamento = gridProdutos.getSelectedItem()[6];
-						categoria = gridProdutos.getSelectedItem()[7];
-						valor = gridProdutos.getSelectedItem()[8];
+						dataVenda = gridVendas.getSelectedItem()[0];
+						codigoVenda = gridVendas.getSelectedItem()[1];
+						produto = gridVendas.getSelectedItem()[2];
+						marca = gridVendas.getSelectedItem()[3];
+						descricao = gridVendas.getSelectedItem()[4];
+						quantidade = gridVendas.getSelectedItem()[5];
+						tipoPagamento = gridVendas.getSelectedItem()[6];
+						categoria = gridVendas.getSelectedItem()[7];
+						valor = gridVendas.getSelectedItem()[8];
 
 					} catch (Exception e) {
-						Auxiliares.artMsgbox("CONTROLE", "Clique em um Item!");
+						Auxiliares.messagebox("CONTROLE", "Clique em um Item!");
 					}
 
 				}
@@ -212,7 +219,7 @@ public class Relatorio extends totalcross.ui.Window{
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela relatorio\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela relatorio\n" + e);
 		}
 
 	}
@@ -227,7 +234,7 @@ public class Relatorio extends totalcross.ui.Window{
 		try {
 			
 			try {
-				gridProdutos.removeAllElements();
+				gridVendas.removeAllElements();
 				
 				dataI    = new Date(editDataUm.getText()).toString(Settings.DATE_YMD);
 				dataII   = new Date(editDataDois.getText()).toString(Settings.DATE_YMD);
@@ -250,7 +257,7 @@ public class Relatorio extends totalcross.ui.Window{
 					b[6] = rs.getString("TIPOPAGAMENTO");
 					b[7] = rs.getString("CATEGORIA");
 					b[8] = "R$ " + rs.getString("VALOR");
-					gridProdutos.add(b);
+					gridVendas.add(b);
 					
 					quantidade += rs.getInt("QUANTIDADE");
 					total      += Convert.toDouble(rs.getString("VALOR"));
@@ -267,7 +274,7 @@ public class Relatorio extends totalcross.ui.Window{
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao pesquisaVendasPorPeriodo\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao pesquisaVendasPorPeriodo\n" + e);
 
 		}
 

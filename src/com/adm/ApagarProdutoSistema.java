@@ -1,30 +1,42 @@
 package com.adm;
 
+
+import java.util.Random;
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
+
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
+import totalcross.ui.Button;
 import totalcross.ui.ComboBox;
+import totalcross.sys.Convert;
+import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
 import totalcross.ui.Label;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
-import totalcross.ui.event.PenEvent;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
 
 public class ApagarProdutoSistema extends totalcross.ui.Window {
 
-	private Label				lblAviso;
-	private ComboBox			cmbProduto;
-	private ArtButton			btnApagar;
-	private ArtButton 			btnVoltar;  
-	private ImageControl		imgApagarEmpresa;
+	public Label 				lblCategoria;
+	public Label 				lblUsuario;
+	public Label				lblCodigo;
 	
-	private int					codigoProduto = 0;
+	public Edit					editCodigo;
+	public Edit					editCategoria;
+	
+	public Button		   		btnApagar;
+	public Button				btnGerarCodigo;
+	public Button 				btnVoltar;
+	
+	private ComboBox			cmbApagarProdutoSistema;
+	
+	public ImageControl		    imgApagarProdutoSistema;
 
 	public ApagarProdutoSistema() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 	}
 
@@ -32,37 +44,32 @@ public class ApagarProdutoSistema extends totalcross.ui.Window {
 
 		try {
 			
-			lblAviso = new Label("POR FAVOR SELECIONE O PRODUTO QUE DESEJA\n APAGAR DO SISTEMA:");
-			add(lblAviso);
-			lblAviso.setRect(CENTER, TOP + 2, PREFERRED, PREFERRED);
-			lblAviso.setBackColor(0x003366);
-			lblAviso.setForeColor(Color.WHITE);
+			imgApagarProdutoSistema = new ImageControl(new Image("img/cadastrarProduto.png"));
+			imgApagarProdutoSistema.scaleToFit = true;
+			imgApagarProdutoSistema.centerImage = true;
+			add(imgApagarProdutoSistema, CENTER, TOP - 40, SCREENSIZE + 40, SCREENSIZE + 40);
+
+			cmbApagarProdutoSistema = new ComboBox();
+			add(cmbApagarProdutoSistema);
+			cmbApagarProdutoSistema.setRect(CENTER, AFTER - 20, SCREENSIZE + 80, SCREENSIZE + 4, imgApagarProdutoSistema);
 			
-			imgApagarEmpresa = new ImageControl(new Image("img/apagarProduto.png"));
-			imgApagarEmpresa.scaleToFit = true;
-			imgApagarEmpresa.centerImage = true;
-			add(imgApagarEmpresa, CENTER, AFTER - 5, SCREENSIZE + 20, SCREENSIZE + 40,lblAviso);
-			
-			cmbProduto = new ComboBox();
-			add(cmbProduto);
-			cmbProduto.setRect(LEFT + 90, AFTER + 30, FILL - 90, PREFERRED, imgApagarEmpresa);		
-			
-			btnApagar = new ArtButton("APAGAR");
-			add(btnApagar);
-			btnApagar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnApagar.setBackColor(0xDF0101);
+			btnApagar = BottomImg.imageWithText(new Image("img/apagarProdutos.png"), "Apagar", Button.BOTTOM);
+			add(btnApagar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnApagar.setBackColor(0x1c355d);
 			btnApagar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
+			
+			cmbCarregarProduto();
 			
 			reposition();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao construir a tela ApagarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao construir o menu CadastrarCategoriaSistema\n" + e);
+
 		}
 
 	}
@@ -77,79 +84,74 @@ public class ApagarProdutoSistema extends totalcross.ui.Window {
 					unpop();
 
 				} else if (evt.target == btnApagar) {
+					String[] ArtButtonArray = { "Sim", "Não" };
 
-					if (cmbProduto.getSelectedIndex() == -1) {
-
-						Auxiliares.artMsgbox("CONTROLE", "Selecione um produto!");
+					if (cmbApagarProdutoSistema.getSelectedItem() == null) {
+						Auxiliares.messagebox("SOLUCAO", "Por favor selecione uma Produto!");
 						return;
 					}
 
-					String[] ArtButtonArray = { "Sim", "Não" };
-
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja apagar esse produto?", ArtButtonArray);
+					int i = Auxiliares.messageBox("SOLUCAO", "Deseja apagar essa Produto do sistema?",
+							ArtButtonArray);
 
 					if (i == 1) {
 						return;
 
 					} else {
-
-						apagarProduto();
-						Auxiliares.artMsgbox("CONTROLE", "Produto apagado do sistema!");
+						apagaCategoriaSistema();
+						Auxiliares.messagebox("SOLUCAO", "Produto apagada com sucesso!");
+						unpop();
 
 					}
-
-				} else if (evt.target == cmbProduto) {
-					buscaCodigoDoProduto();
-				}
-				break;
-
-			case PenEvent.PEN_DOWN:
-
-				if (evt.target == cmbProduto) {
-
-					cmbProduto.removeAll();
-					carregaCmbProduto();
+				} else if (evt.target == btnGerarCodigo) {
+					Random random = new Random();
+					int codigo = random.nextInt(900);
+					editCodigo.setText(Convert.toString(codigo));
 
 				}
+
 			}
-			
+
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação evento ApagarProdutoSistema\n " + e);
+			Auxiliares.messagebox("SOLUCAO", "Erro na validação do menu CadastrarProdutoSistema\n " + e);
 		}
 
 	}
 	
-	public void carregaCmbProduto() {
+	public void cmbCarregarProduto() {
+		{
 			String sql = "";
 			LitebasePack lb = null;
 			ResultSet rs = null;
- 
+
 			try {
 				try {
+					cmbApagarProdutoSistema.removeAll();
 					lb = new LitebasePack();
-					sql = " SELECT CODIGO, PRODUTO FROM PRODUTO";
+					sql = " SELECT PRODUTO FROM PRODUTO";
 
 					rs = lb.executeQuery(sql);
-					rs.first();			
-				for (int i = 0; rs.getRowCount() > i; i++) {
-					String[] b = new String[1];
-					b[0] = rs.getString("PRODUTO");
-					cmbProduto.add(b);
-					rs.next();
-				}
+					rs.first();
+					for (int i = 0; rs.getRowCount() > i; i++) {
+						String[] b = new String[1];
+						b[0] = rs.getString("PRODUTO");
+						cmbApagarProdutoSistema.add(b);
+						rs.next();
+					}
 				} finally {
 					if (lb != null)
 						lb.closeAll();
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregar carregaCmbProduto\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao cmbCarregarProduto\n" + e);
 
 			}
 
 		}
+	}
 	
-	public void apagarProduto() {
+	public void apagaCategoriaSistema() {
 		String sql = "";
 		LitebasePack lb = null;
 
@@ -157,9 +159,9 @@ public class ApagarProdutoSistema extends totalcross.ui.Window {
 
 			try {
 				lb = new LitebasePack();
-				
-				sql = " DELETE FROM PRODUTO " 
-				    + " WHERE PRODUTO = "	+ "'" + cmbProduto.getSelectedItem() + "'";
+
+				sql = "DELETE FROM PRODUTO WHERE PRODUTO = '" + cmbApagarProdutoSistema.getSelectedItem() + "'";
+
 				lb.executeUpdate(sql);
 
 			} finally {
@@ -168,43 +170,10 @@ public class ApagarProdutoSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao apagarProduto\n"+ e);			
-			unpop();
+			Auxiliares.messagebox("ERRO", "Erro ao buscar apagaCategoriaSistema\n" + e);
+
+			return;
 		}
-	}
-	
-	public void buscaCodigoDoProduto() {
-		String sql = "";
-		LitebasePack lb = null;
-		ResultSet rs = null;
-
-		try {
-			try {
-				lb = new LitebasePack();
-				sql = " SELECT CODIGO, PRODUTO FROM PRODUTO "
-					+ " WHERE PRODUTO = "	+ "'" + cmbProduto.getSelectedItem() + "'";
-
-				rs = lb.executeQuery(sql);
-				rs.first();			
-				setCodigoProduto(rs.getInt("CODIGO"));
-			} finally {
-				if (lb != null)
-					lb.closeAll();
-
-			}
-		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro buscaCodigoDoProduto\n" + e);
-
-		}
-
-	}
-
-	public int getCodigoProduto() {
-		return codigoProduto;
-	}
-
-	public void setCodigoProduto(int codigoProduto) {
-		this.codigoProduto = codigoProduto;
 	}
 
 }

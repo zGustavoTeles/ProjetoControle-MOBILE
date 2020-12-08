@@ -3,12 +3,12 @@ package com.carrinho;
 import java.util.Random;
 
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
-import com.teclado.Teclado;
-import com.venda.Venda;
+import com.venda.Loja;
+import totalcross.ui.Button;
 import totalcross.ui.ComboBox;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
 import totalcross.sys.Convert;
 import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
@@ -41,10 +41,10 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 	private Edit 				 editValor;
 	private Edit				 editQuantidade;
 	private Edit 				 editTotal;
-	private ArtButton 			 btnAlterar;
-	private ArtButton 			 btnVoltar;
+	private Button  			 btnAlterar;
+	private Button 				 btnVoltar;
 	private ComboBox			 cmbTipoPagamento;
-	private ImageControl		 imgAlterar;
+	private ImageControl		 imgAlterarProdutoCarrinho;
 	public double 				 valorProduto = 0.0;
 	public double				 total = 0.0;
 	public int				     qntEstoqueFinal = 0;
@@ -59,10 +59,8 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 	public String				valorTemp = "";
 	public int					quantidadeTemp = 0;
 
-	public Teclado teclado;
-
 	public AlterarProdutoCarrinho() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 	}
 
@@ -70,144 +68,141 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 
 		try {
 			
-			imgAlterar = new ImageControl(new Image("img/alterar.png"));
-			imgAlterar.scaleToFit = true;
-			imgAlterar.centerImage = true;
-			add(imgAlterar, CENTER, TOP - 20, SCREENSIZE + 15, SCREENSIZE + 30);
+			imgAlterarProdutoCarrinho = new ImageControl(new Image("img/alterarProduto.png"));
+			imgAlterarProdutoCarrinho.scaleToFit = true;
+			imgAlterarProdutoCarrinho.centerImage = true;
+			add(imgAlterarProdutoCarrinho, CENTER, TOP - 20, SCREENSIZE + 20, SCREENSIZE + 20);
 			
-			lblCategoria = new Label("CATEGORIA:   ");
-			add(lblCategoria);
-			lblCategoria.setRect(LEFT + 90, AFTER - 10, PREFERRED, PREFERRED, imgAlterar);
-			lblCategoria.setBackColor(0x003366);
-			lblCategoria.setForeColor(Color.WHITE);
+//			lblCategoria = new Label("CATEGORIA:   ");
+//			add(lblCategoria);
+//			lblCategoria.setRect(LEFT + 5, AFTER - 10, PREFERRED, PREFERRED, imgAlterarProdutoCarrinho);
+//			lblCategoria.setBackColor(0x003366);
+//			lblCategoria.setForeColor(Color.WHITE);
 
 			editCategoria = new Edit();
 			add(editCategoria);
-			editCategoria.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblCategoria);
+			editCategoria.setRect(CENTER, AFTER - 30, SCREENSIZE + 80, SCREENSIZE + 4, imgAlterarProdutoCarrinho);
 			editCategoria.setBackColor(Color.WHITE);
 			editCategoria.setForeColor(0x003366);
 			editCategoria.setEditable(false);
 			
-			lblMarca = new Label("MARCA:           ");
-			add(lblMarca);
-			lblMarca.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editCategoria);
-			lblMarca.setBackColor(0x003366);
-			lblMarca.setForeColor(Color.WHITE);
+//			lblMarca = new Label("MARCA:           ");
+//			add(lblMarca);
+//			lblMarca.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editCategoria);
+//			lblMarca.setBackColor(0x003366);
+//			lblMarca.setForeColor(Color.WHITE);
 
 			editMarca = new Edit();
 			add(editMarca);
-			editMarca.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblMarca);
+			editMarca.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editCategoria);
 			editMarca.setBackColor(Color.WHITE);
 			editMarca.setForeColor(0x003366);
 			editMarca.setEditable(false);
-			
-			lblDescricao = new Label("DESCRICÃO:   ");
-			add(lblDescricao);
-			lblDescricao.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editMarca);
-			lblDescricao.setBackColor(0x003366);
-			lblDescricao.setForeColor(Color.WHITE);
+//			
+//			lblDescricao = new Label("DESCRICÃO:   ");
+//			add(lblDescricao);
+//			lblDescricao.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editMarca);
+//			lblDescricao.setBackColor(0x003366);
+//			lblDescricao.setForeColor(Color.WHITE);
 
 			editDescricao = new Edit();
 			add(editDescricao);
-			editDescricao.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblDescricao);
+			editDescricao.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editMarca);
 			editDescricao.setBackColor(Color.WHITE);
 			editDescricao.setForeColor(0x003366);
 			editDescricao.setEditable(false);		
 
-			lblProduto = new Label("PRODUTO:      ");
-			add(lblProduto);
-			lblProduto.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editDescricao);
-			lblProduto.setBackColor(0x003366);
-			lblProduto.setForeColor(Color.WHITE);
+//			lblProduto = new Label("PRODUTO:      ");
+//			add(lblProduto);
+//			lblProduto.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editDescricao);
+//			lblProduto.setBackColor(0x003366);
+//			lblProduto.setForeColor(Color.WHITE);
 
 			editProduto = new Edit();
 			add(editProduto);
-			editProduto.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblProduto);
+			editProduto.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editDescricao);
 			editProduto.setBackColor(Color.WHITE);
 			editProduto.setForeColor(0x003366);
 			editProduto.setEditable(false);
 
-			lblCodigo = new Label("CÓDIGO:          ");
-			add(lblCodigo);
-			lblCodigo.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editProduto);
-			lblCodigo.setBackColor(0x003366);
-			lblCodigo.setForeColor(Color.WHITE);
+//			lblCodigo = new Label("CÓDIGO:          ");
+//			add(lblCodigo);
+//			lblCodigo.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editProduto);
+//			lblCodigo.setBackColor(0x003366);
+//			lblCodigo.setForeColor(Color.WHITE);
 
 			editCodigo = new Edit();
 			add(editCodigo);
-			editCodigo.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblCodigo);
+			editCodigo.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editProduto);
 			editCodigo.setBackColor(Color.WHITE);
 			editCodigo.setForeColor(0x003366);
 			editCodigo.setEditable(false);
-
-			lblEstoque = new Label("ESTOQUE:       ");
-			add(lblEstoque);
-			lblEstoque.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editCodigo);
-			lblEstoque.setBackColor(0x003366);
-			lblEstoque.setForeColor(Color.WHITE);
+//
+//			lblEstoque = new Label("ESTOQUE:       ");
+//			add(lblEstoque);
+//			lblEstoque.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editCodigo);
+//			lblEstoque.setBackColor(0x003366);
+//			lblEstoque.setForeColor(Color.WHITE);
 
 			editEstoque = new Edit();
 			add(editEstoque);
-			editEstoque.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblEstoque);
+			editEstoque.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editCodigo);
 			editEstoque.setBackColor(Color.WHITE);
 			editEstoque.setForeColor(0x003366);
 			editEstoque.setEditable(false);
-
-			lblQuantidade = new Label("QUANTIDADE: ");
-			add(lblQuantidade);
-			lblQuantidade.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, lblEstoque);
-			lblQuantidade.setBackColor(0x003366);
-			lblQuantidade.setForeColor(Color.WHITE);
+//
+//			lblQuantidade = new Label("QUANTIDADE: ");
+//			add(lblQuantidade);
+//			lblQuantidade.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, lblEstoque);
+//			lblQuantidade.setBackColor(0x003366);
+//			lblQuantidade.setForeColor(Color.WHITE);
 
 			editQuantidade = new Edit();
 			add(editQuantidade);
-			editQuantidade.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblQuantidade);
+			editQuantidade.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editEstoque);
 			editQuantidade.setBackColor(Color.WHITE);
 			editQuantidade.setForeColor(0x003366);
 			editQuantidade.setValidChars("0 1 2 3 4 5 6 7 8 9");
 			editQuantidade.setText(Carrinho.quantidadeProduto);
 
-			lblValor = new Label("VALOR:            ");
-			add(lblValor);
-			lblValor.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, lblQuantidade);
-			lblValor.setBackColor(0x003366);
-			lblValor.setForeColor(Color.WHITE);
+//			lblValor = new Label("VALOR:            ");
+//			add(lblValor);
+//			lblValor.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, lblQuantidade);
+//			lblValor.setBackColor(0x003366);
+//			lblValor.setForeColor(Color.WHITE);
 
 			editValor = new Edit();
 			add(editValor);
-			editValor.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblValor);
+			editValor.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editQuantidade);
 			editValor.setBackColor(Color.WHITE);
 			editValor.setForeColor(0x003366);
 			editValor.setEditable(false);
 
-			lblTotal = new Label("TOTAL:            ");
-			add(lblTotal);
-			lblTotal.setRect(LEFT + 90, AFTER + 15, PREFERRED, PREFERRED, editValor);
-			lblTotal.setBackColor(0x003366);
-			lblTotal.setForeColor(Color.WHITE);
+//			lblTotal = new Label("TOTAL:            ");
+//			add(lblTotal);
+//			lblTotal.setRect(LEFT + 5, AFTER + 15, PREFERRED, PREFERRED, editValor);
+//			lblTotal.setBackColor(0x003366);
+//			lblTotal.setForeColor(Color.WHITE);
 
 			editTotal = new Edit();
 			add(editTotal);
-			editTotal.setRect(AFTER, SAME, FILL - 80, PREFERRED, lblTotal);
+			editTotal.setRect(CENTER, AFTER, SCREENSIZE + 80, SCREENSIZE + 4, editValor);
 			editTotal.setBackColor(Color.WHITE);
 			editTotal.setForeColor(0x003366);
 			editTotal.setEditable(false);
-			editTotal.setText(Carrinho.totalProduto);
 			
 			cmbTipoPagamento = new ComboBox();
 			add(cmbTipoPagamento);
-			cmbTipoPagamento.setRect(LEFT + 150, AFTER + 15, FILL - 140, PREFERRED, editTotal);
+			cmbTipoPagamento.setRect(CENTER, AFTER + 50, SCREENSIZE + 40, PREFERRED, editTotal);
 			
-			btnAlterar = new ArtButton("ALTERAR");
-			add(btnAlterar);
-			btnAlterar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnAlterar.setBackColor(0x009933);
+			btnAlterar = BottomImg.imageWithText(new Image("img/alterar.png"), "Alterar", Button.BOTTOM);
+			add(btnAlterar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnAlterar.setBackColor(0x1c355d);
 			btnAlterar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
 			
 			reposition();
@@ -226,7 +221,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 			calculaTotalProduto();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela alterarItem\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela alterarItem\n" + e);
 
 		}
 
@@ -246,7 +241,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 				if (evt.target == btnAlterar) {
 
 					if (editQuantidade.getText().length() == 0) {
-						Auxiliares.artMsgbox("CONTROLE", "Por favor insira uma quantidade!");
+						Auxiliares.messagebox("SOLUCAO", "Por favor insira uma quantidade!");
 						return;
 					}
 
@@ -256,7 +251,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 						quantidadeInserida = editQuantidade.getText();
 
 						if (Convert.toInt(quantidadeInserida) > quantidadeTemp) {
-							Auxiliares.artMsgbox("CONTROLE",
+							Auxiliares.messagebox("SOLUCAO",
 									"Quantidade inserida maior que a quantidade em estoque!");
 							
 							editQuantidade.requestFocus();
@@ -266,7 +261,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 
 						String[] ArtButtonArray = { "Sim", "Não" };
 
-						int i = Auxiliares.artMsgbox("CONTROLE", "Deseja alterar este produto inserindo "
+						int i = Auxiliares.messageBox("SOLUCAO", "Deseja alterar este produto inserindo "
 								+ editQuantidade.getText() + "\nunidade(s) no carrinho?", ArtButtonArray);
 
 						if (i == 1) {
@@ -276,7 +271,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 
 							alteraProdutoCarrinho();
 
-							Auxiliares.artMsgbox("CONTROLE", "Produto do carrinho alterado!");
+							Auxiliares.messagebox("SOLUCAO", "Produto do carrinho alterado!");
 
 							unpop();
 							unpop();
@@ -293,7 +288,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 				}
 			}
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela alterarItem\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela alterarItem\n" + e);
 		}
 
 	}
@@ -316,7 +311,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 			editEstoque.setText(Convert.toString(qntEstoqueFinal));
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("CONTROLE", "Erro no calculo do produto" + e);
+			Auxiliares.messagebox("ERRO", "Erro no calculo do produto" + e);
 		}
 
 	}
@@ -371,7 +366,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro alteraProdutoCarrinho\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro alteraProdutoCarrinho\n" + e);
 		}
 
 	}
@@ -401,7 +396,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro carregaCmbTipoPagamento\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro carregaCmbTipoPagamento\n" + e);
 
 			}
 
@@ -446,7 +441,7 @@ public class AlterarProdutoCarrinho extends totalcross.ui.Window {
 
 			}
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro carregaInfoItem\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro carregaInfoItem\n" + e);
 
 		}
 

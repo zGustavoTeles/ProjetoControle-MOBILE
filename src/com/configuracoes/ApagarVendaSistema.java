@@ -2,9 +2,7 @@ package com.configuracoes;
 
 import com.auxiliares.Auxiliares;
 import com.litebase.LitebasePack;
-import com.teclado.Teclado;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
 import totalcross.sys.Convert;
 import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
@@ -13,6 +11,7 @@ import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
+import totalcross.ui.Button;
 
 public class ApagarVendaSistema extends totalcross.ui.Window {
 
@@ -36,8 +35,8 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 	private Edit 				 editProduto;
 	private Edit 				 editDataVenda;
 	private Edit 				 editTotal;
-	private ArtButton 			 btnVoltar;
-	private ArtButton			 btnApagar;
+	private Button 			 btnVoltar;
+	private Button			 btnApagar;
 	private ImageControl		 imgVenda;
 	public double				 totalVenda = 0.0;
 	public int				     qntEstoqueFinal = 0;
@@ -51,7 +50,6 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 	public String 				 quantidadeInserida = "";
 	public String 				 valorProduto = "";
 	
-	public Teclado teclado;
 
 	public ApagarVendaSistema() {
 		setBackColor(0x003366);
@@ -206,13 +204,13 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 			editQuantidade.setForeColor(0x003366);
 			editQuantidade.setValidChars("0 1 2 3 4 5 6 7 8 9");
 			
-			btnApagar = new ArtButton("APAGAR");
+			btnApagar = new Button("APAGAR");
 			add(btnApagar);
 			btnApagar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnApagar.setBackColor(0xDF0101);
 			btnApagar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 			add(btnVoltar);
 			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 5, PREFERRED + 13);
 			btnVoltar.setBackColor(0x003366);
@@ -223,7 +221,7 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 			reposition();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela ApagarVendaSistema\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela ApagarVendaSistema\n" + e);
 
 		}
 
@@ -242,18 +240,18 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 				if (evt.target == btnApagar) {
 
 					if (editQuantidade.getText().equals("")) {
-						Auxiliares.artMsgbox("CONTROLE", "Por favor digite uma quantidade!");
+						Auxiliares.messagebox("CONTROLE", "Por favor digite uma quantidade!");
 
 						return;
 
 					} else if (Convert.toInt(editQuantidade.getText()) == 0) {
-						Auxiliares.artMsgbox("CONTROLE", "Quantidade inválida!");
+						Auxiliares.messagebox("CONTROLE", "Quantidade inválida!");
 						editQuantidade.setText("");
 
 						return;
 
 					} else if (Convert.toInt(editQuantidade.getText()) > Convert.toInt(ApagarVenda.quantidade)) {
-						Auxiliares.artMsgbox("CONTROLE", "Quantidade inserida maior que a quantidade\nda venda!");
+						Auxiliares.messagebox("CONTROLE", "Quantidade inserida maior que a quantidade\nda venda!");
 						editQuantidade.setText("");
 						editVendido.setText(ApagarVenda.quantidade);
 						editTotal.setText(ApagarVenda.valor);
@@ -267,12 +265,12 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 
 						if (Convert.toInt(editVendido.getText()) == 0 || Convert.toInt(editVendido.getText()) < 0) {
 							
-							i = Auxiliares.artMsgbox("CONTROLE",
+							i = Auxiliares.messageBox("CONTROLE",
 									"Deseja apagar essa venda?",
 									ArtButtonArray);
 
 						} else {
-							i = Auxiliares.artMsgbox("CONTROLE",
+							i = Auxiliares.messageBox("CONTROLE",
 									"Deseja apagar " + editQuantidade.getText() + " unidade(s) desta venda?",
 									ArtButtonArray);
 						}
@@ -285,9 +283,9 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 							apagarVenda();
 
 							if (Convert.toInt(editVendido.getText()) == 0 || Convert.toInt(editVendido.getText()) < 0) {
-								Auxiliares.artMsgbox("CONTROLE", "Venda apagada com sucesso!");
+								Auxiliares.messagebox("CONTROLE", "Venda apagada com sucesso!");
 							} else {
-								Auxiliares.artMsgbox("CONTROLE", editQuantidade.getText()
+								Auxiliares.messagebox("CONTROLE", editQuantidade.getText()
 										+ " Unidade(s) desta venda foram\napagada(s) com sucesso!");
 							}
 							unpop();
@@ -316,7 +314,7 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 
 			}
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela DetalharVenda\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela DetalharVenda\n" + e);
 		}
 
 	}
@@ -380,7 +378,7 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro apagarVenda()\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro apagarVenda()\n" + e);
 		}
 
 	}
@@ -396,7 +394,7 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 			editTotal.setText(Convert.toString(totalVenda, 2));
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao calcularQuantidade\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao calcularQuantidade\n" + e);
 		}
 
 	}
@@ -431,7 +429,7 @@ public class ApagarVendaSistema extends totalcross.ui.Window {
 			}		
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscaValorProduto\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscaValorProduto\n" + e);
 			return valorProduto;
 		}
 	}

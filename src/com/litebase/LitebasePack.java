@@ -14,7 +14,7 @@ public class LitebasePack {
 
 		try {
 			// if (pdbdriver == null)
-			pdbdriver = LitebaseConnection.getInstance("NXNX");
+			pdbdriver = LitebaseConnection.getInstance("SLTC");
 		} catch (Exception e) {
 			MessageBox msg = new MessageBox("Aviso!","Erro no bdb");
 			msg.setBackColor(Color.WHITE);

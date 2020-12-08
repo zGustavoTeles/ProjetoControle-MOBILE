@@ -2,12 +2,11 @@ package com.adm;
 
 
 import java.util.Random;
-
 import com.auxiliares.Auxiliares;
+import com.bottom.BottomImg;
 import com.litebase.LitebasePack;
-
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
+import totalcross.ui.Button;
 import totalcross.sys.Convert;
 import totalcross.ui.ComboBox;
 import totalcross.ui.Edit;
@@ -35,14 +34,14 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 	private ComboBox			cmbProduto;
 	private ComboBox			cmbCategoria;
 	
-	public ArtButton		    btnCadastrar;
-	public ArtButton			btnGerarCodigo;
-	public ArtButton 			btnVoltar;
+	public Button		    btnCadastrar;
+	public Button			btnGerarCodigo;
+	public Button 			btnVoltar;
 	
 	public ImageControl		    imgCadastrarEmpresa;
 
 	public CadastrarMarcaSistema() {
-		setBackColor(0x003366);
+		setBackColor(0x1c355d);
 		initUI();
 		carregaCmbCategoria();
 	}
@@ -58,19 +57,19 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 			
 			lblMarca = new Label("MARCA: ");
 			add(lblMarca);
-			lblMarca.setBackColor(0x003366);
+			lblMarca.setBackColor(0x1c355d);
 			lblMarca.setForeColor(Color.WHITE);
 			lblMarca.setRect(LEFT, AFTER, PREFERRED, PREFERRED, imgCadastrarEmpresa);
 
 			add(editMarca = new Edit(), LEFT, AFTER, PREFERRED, PREFERRED, lblMarca);
 			editMarca.setBackColor(Color.WHITE);
 			editMarca.capitalise = (Edit.ALL_UPPER);
-			editMarca.setForeColor(0x003366);
+			editMarca.setForeColor(0x1c355d);
 
 			lblCategoria = new Label("CATEGORIA:");
 			add(lblCategoria);
 			lblCategoria.setRect(LEFT, AFTER + 30, PREFERRED, PREFERRED, editMarca);
-			lblCategoria.setBackColor(0x003366);
+			lblCategoria.setBackColor(0x1c355d);
 			lblCategoria.setForeColor(Color.WHITE);
 			
 			cmbCategoria = new ComboBox();
@@ -80,7 +79,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 			lblProduto = new Label("PRODUTO:");
 			add(lblProduto);
 			lblProduto.setRect(LEFT, AFTER + 30, PREFERRED, PREFERRED, cmbCategoria);
-			lblProduto.setBackColor(0x003366);
+			lblProduto.setBackColor(0x1c355d);
 			lblProduto.setForeColor(Color.WHITE);
 			
 			cmbProduto = new ComboBox();
@@ -90,42 +89,40 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 			lblCodigoProduto = new Label("CÓDIGO:");
 			add(lblCodigoProduto);
 			lblCodigoProduto.setRect(LEFT, AFTER + 30, PREFERRED, PREFERRED,cmbProduto);
-			lblCodigoProduto.setBackColor(0x003366);
+			lblCodigoProduto.setBackColor(0x1c355d);
 			lblCodigoProduto.setForeColor(Color.WHITE);
 			
 			add(editCodigo = new Edit(), LEFT, AFTER, PREFERRED, PREFERRED,lblCodigoProduto );
 			editCodigo.setBackColor(Color.WHITE);
-			editCodigo.setForeColor(0x003366);
+			editCodigo.setForeColor(0x1c355d);
 			editCodigo.setEditable(false);
 			
-			btnGerarCodigo = new ArtButton("CÓDIGO");
+			btnGerarCodigo = new Button("CÓDIGO");
 			add(btnGerarCodigo);
 			btnGerarCodigo.setRect(LEFT, AFTER + 30, SCREENSIZE - 5, PREFERRED, editCodigo);
-			btnGerarCodigo.setBackColor(0x003366);
+			btnGerarCodigo.setBackColor(0x1c355d);
 			btnGerarCodigo.setForeColor(Color.WHITE);	
 			
 			add(editCodigoProduto = new Edit(), LEFT, AFTER + 10, PREFERRED, PREFERRED);
 			editCodigoProduto.setBackColor(Color.WHITE);
-			editCodigoProduto.setForeColor(0x003366);
+			editCodigoProduto.setForeColor(0x1c355d);
 			editCodigoProduto.setEditable(false);
 			
-			btnCadastrar = new ArtButton("CADASTRAR");
-			add(btnCadastrar);
-			btnCadastrar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnCadastrar.setBackColor(0x009933);
+			btnCadastrar = BottomImg.imageWithText(new Image("img/cadastrarProdutoSistema.png"), "Cadastrar", Button.BOTTOM);
+			add(btnCadastrar, LEFT + 5, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
+			btnCadastrar.setBackColor(0x1c355d);
 			btnCadastrar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
-			add(btnVoltar);
-			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
-			btnVoltar.setBackColor(0x003366);
+			btnVoltar = BottomImg.imageWithText(new Image("img/voltar.png"), "Voltar", Button.BOTTOM);
+			add(btnVoltar, RIGHT - 2, BOTTOM, SCREENSIZE + 25, SCREENSIZE + 10);
+			btnVoltar.setBackColor(0x1c355d);
 			btnVoltar.setForeColor(Color.WHITE);
 			
 			reposition();
 			editMarca.requestFocus();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao construir o menu CadastrarMarcaSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao construir o menu CadastrarMarcaSistema\n" + e);
 
 		}
 
@@ -145,18 +142,18 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 
 					if (editMarca.getText().equals("") || editCodigo.getText().equals("")
 							|| cmbProduto.getSelectedItem() == "" || cmbCategoria.getSelectedItem() == "" || editCodigoProduto.getText().equals("")) {
-						Auxiliares.artMsgbox("CONTROLE", "Preencha todos os campos!");
+						Auxiliares.messagebox("SOLUCAO", "Preencha todos os campos!");
 						return;
 					}
 
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja cadastrar a marca no sistema?", ArtButtonArray);
+					int i = Auxiliares.messageBox("SOLUCAO", "Deseja cadastrar a marca no sistema?", ArtButtonArray);
 
 					if (i == 1) {
 						return;
 
 					} else {
 						cadastraMarcaSistema();
-						Auxiliares.artMsgbox("CONTROLE", "Marca cadastrado com sucesso!");
+						Auxiliares.messagebox("SOLUCAO", "Marca cadastrado com sucesso!");
 						unpop();
 
 					}
@@ -176,7 +173,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("CONTROLE", "Erro na validação do menu CadastrarMarcaSistema\n " + e);
+			Auxiliares.messagebox("SOLUCAO", "Erro na validação do menu CadastrarMarcaSistema\n " + e);
 		}
 
 	}
@@ -201,7 +198,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar cadastrarProdutoSistema\n" + e);
 
 			return;
 		}
@@ -233,7 +230,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregaCmbCategoria\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao carregaCmbCategoria\n" + e);
 
 			}
 
@@ -266,7 +263,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregaCmbProduto\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao carregaCmbProduto\n" + e);
 
 			}
 
@@ -296,7 +293,7 @@ public class CadastrarMarcaSistema extends totalcross.ui.Window {
 
 				}
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Erro ao carregaCmbProduto\n" + e);
+				Auxiliares.messagebox("ERRO", "Erro ao carregaCmbProduto\n" + e);
 
 			}
 

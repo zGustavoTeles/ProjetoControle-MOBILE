@@ -1,10 +1,10 @@
 package com.adm;
 
 import com.auxiliares.Auxiliares;
+import com.configuracoes.Cadastrar;
 import com.litebase.LitebasePack;
-
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
+import totalcross.ui.Button;
 import totalcross.ui.Edit;
 import totalcross.ui.ImageControl;
 import totalcross.ui.Label;
@@ -17,8 +17,8 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 
 	public Label                lblAviso;
 	public Label 				lblSenha;
-	public ArtButton		    btnEntrar;
-	public ArtButton 			btnVoltar;	
+	public Button		    btnEntrar;
+	public Button 			btnVoltar;	
 	public ImageControl		    imgApagarDados;
 	
 	public static Edit 				editSenha;
@@ -58,13 +58,13 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			editSenha.setBackColor(Color.WHITE);
 			editSenha.setForeColor(0x003366);
 
-			btnEntrar = new ArtButton("ENTRAR");
+			btnEntrar = new Button("ENTRAR");
 			add(btnEntrar);
 			btnEntrar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnEntrar.setBackColor(0x009933);
 			btnEntrar.setForeColor(Color.WHITE);
 
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 			add(btnVoltar);
 			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnVoltar.setBackColor(0x003366);
@@ -74,7 +74,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			editSenha.requestFocus();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela ValidaAdministrador\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela ValidaAdministrador\n" + e);
 
 		}
 
@@ -102,11 +102,11 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 							return;
 						}
 
-						Auxiliares.artMsgbox("CONTROLE", "Bem vindo!");
+						Auxiliares.messagebox("CONTROLE", "Bem vindo!");
 
 						String[] ArtButtonArray = { "Sim", "Não" };
 
-						int i = Auxiliares.artMsgbox("CONTROLE", "Deseja salvar sua senha?", ArtButtonArray);
+						int i = Auxiliares.messageBox("CONTROLE", "Deseja salvar sua senha?", ArtButtonArray);
 
 						if (i == 1) {
 							apagaDadosLogin();
@@ -122,10 +122,10 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 						}
 
 					} else if (editSenha.getText().equals("")) {
-						Auxiliares.artMsgbox("CONTROLE", "Por favor digite uma senha!");
+						Auxiliares.messagebox("CONTROLE", "Por favor digite uma senha!");
 
 					} else {
-						Auxiliares.artMsgbox("CONTROLE", "Senha incorreta!");
+						Auxiliares.messagebox("CONTROLE", "Senha incorreta!");
 						editSenha.setText("");
 					}
 				}
@@ -133,7 +133,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela ValidaAdministrador\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela ValidaAdministrador\n" + e);
 		}
 
 	}
@@ -160,7 +160,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar salvaDadosLogin\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar salvaDadosLogin\n" + e);
 
 			return;
 		}
@@ -187,7 +187,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar apagaDadosLogin\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar apagaDadosLogin\n" + e);
 
 			return;
 		}
@@ -224,7 +224,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar buscaDadosLogin\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar buscaDadosLogin\n" + e);
 
 			return;
 		}
@@ -261,7 +261,7 @@ public class ValidaAdministrador extends totalcross.ui.Window {
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao buscar validaSenhaSalva\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao buscar validaSenhaSalva\n" + e);
 
 			return senhaSalva;
 		}

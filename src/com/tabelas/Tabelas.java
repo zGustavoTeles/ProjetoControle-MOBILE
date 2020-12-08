@@ -1,10 +1,7 @@
 package com.tabelas;
 
+import com.auxiliares.Auxiliares;
 import com.litebase.LitebasePack;
-
-import litebase.ResultSet;
-import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.gfx.Color;
 
 public class Tabelas {
 	
@@ -13,14 +10,16 @@ public class Tabelas {
 	}
 	
 	public void criaTabelas() {
-		ResultSet rs = null;
-		LitebasePack lb = null;
-		String sql = "";
+		
+		LitebasePack lb 		      = null;
+		String sql				 	  = "";
 		
 		try {
 
 			try {
-				lb = new LitebasePack();
+				
+					lb = new LitebasePack();
+					
 //---------------------------------------------------------------------------------------------------------------------------------------					
 					if (!lb.exists("MARCA")) {
 
@@ -1706,14 +1705,22 @@ public class Tabelas {
 					lb.execute("create index vendaprodutoTemp01 ON vendaprodutoTemp(codigo,produto)");
 				}
 //------------------------------------------------------------------------------------------------------------------------------------------
-				if (!lb.exists("EMPRESA")) {
+//				if (!sqlite.exists("EMPRESA")) {
+//
+//					sql = " create table empresa ( " + "codigo int," + " nome char(40), " + " cnpj char(30), "
+//						+ " usuario char(40), " + " datacadastro date " + ")";
+//
+//					sqlite.execute(sql);
+//					sqlite.execute("create index empresa01 ON empresa(codigo,nome)");
+//				}
+				if (!lb.exists("USUARIO")) {
 
-					sql = " create table empresa ( " + "codigo int," + " nome char(40), " + " cnpj char(30), "
-						+ " usuario char(40), " + " datacadastro date " + ")";
+					sql = " create table usuario ( " + "codigo int," +  "nome char(80)," + " endereco char(80), " + " telefone char(30), "
+					+ " email char(30), " + "senha char(50), " + "salvar_senha char(1) " + ")";
 
 					lb.execute(sql);
-					lb.execute("create index empresa01 ON empresa(codigo,nome)");
-				}
+					lb.execute("create index usuario01 ON usuario(email,senha)");
+				}	
 //-------------------------------------------------------------------------------------------------------------------------------------------
 				if (!lb.exists("ADMINISTRADOR")) {
 
@@ -1748,10 +1755,7 @@ public class Tabelas {
 			}
 
 		} catch (Exception e) {
-				MessageBox msg = new MessageBox("CONTROLE","Erro " + e);
-				msg.setBackColor(Color.WHITE);
-				msg.setForeColor(0x424242);
-				msg.popup();
+				Auxiliares.messagebox("Erro", "Erro\n" + e);
 			}
 			
 		}

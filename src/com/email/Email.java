@@ -1,7 +1,6 @@
 package com.email;
 
 import com.auxiliares.Auxiliares;
-import nx.componentes.ArtButton;
 import totalcross.net.mail.Address;
 import totalcross.net.mail.MailSession;
 import totalcross.net.mail.Message;
@@ -18,11 +17,12 @@ import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
 import totalcross.ui.ImageControl;
 import totalcross.ui.Label;
+import totalcross.ui.Button;
 
 public class Email extends totalcross.ui.Window{
 
-	private  ArtButton		    btnEnviarEmail;
-	private  ArtButton 			btnVoltar;
+	private  Button		    btnEnviarEmail;
+	private  Button 			btnVoltar;
 	private  MultiEdit       	multInfoEmail;
 	private	 Label				lblInfoEmail;
 	private  ImageControl		imgSuporte;
@@ -66,13 +66,13 @@ public class Email extends totalcross.ui.Window{
 			multInfoEmail.setForeColor(0x003366);
 			multInfoEmail.setRect(LEFT + 2, AFTER + 10, SCREENSIZE + 100, SCREENSIZE + 50, imgSuporte);
 
-			btnEnviarEmail = new ArtButton("ENVIAR");
+			btnEnviarEmail = new Button("ENVIAR");
 			add(btnEnviarEmail);
 			btnEnviarEmail.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnEnviarEmail.setBackColor(0x009933);
 			btnEnviarEmail.setForeColor(Color.WHITE);
 			
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 			add(btnVoltar);
 			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnVoltar.setBackColor(0x003366);
@@ -83,7 +83,7 @@ public class Email extends totalcross.ui.Window{
 			multInfoEmail.requestFocus();
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela configuracoes\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela configuracoes\n" + e);
 
 		}
 
@@ -101,13 +101,13 @@ public class Email extends totalcross.ui.Window{
 				} else if (evt.target == btnEnviarEmail) {
 
 					if (multInfoEmail.getText().equals("")) {
-						Auxiliares.artMsgbox("CONTROLE", "Deve-se inscrever algo na mensagem!");
+						Auxiliares.messagebox("CONTROLE", "Deve-se inscrever algo na mensagem!");
 						return;
 					}
 
 					String[] ArtButtonArray = { "Sim", "Não" };
 
-					int i = Auxiliares.artMsgbox("CONTROLE", "Deseja enviar a mensagem para o suporte?",
+					int i = Auxiliares.messageBox("CONTROLE", "Deseja enviar a mensagem para o suporte?",
 							ArtButtonArray);
 
 					if (i == 1) {
@@ -116,7 +116,7 @@ public class Email extends totalcross.ui.Window{
 					} else {
 						enviaEmail();
 
-						Auxiliares.artMsgbox("CONTROLE",
+						Auxiliares.messagebox("CONTROLE",
 								"Mensagem enviado com sucesso!\nEmbreve entraremos em contato.\nPor favor aguarde...;)");
 						unpop();
 					}
@@ -124,7 +124,7 @@ public class Email extends totalcross.ui.Window{
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela configuracoes\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela configuracoes\n" + e);
 		}
 
 	}
@@ -177,13 +177,13 @@ public class Email extends totalcross.ui.Window{
 				Transport.send(myMessage, session);
 
 			} catch (Exception e) {
-				Auxiliares.artMsgbox("ERRO", "Email não enviado\n" + e);
+				Auxiliares.messagebox("ERRO", "Email não enviado\n" + e);
 			}
 			
 			pb.unpop();
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Email enviaEmail\n" + e);
+			Auxiliares.messagebox("ERRO", "Email enviaEmail\n" + e);
 		}
 	}
 

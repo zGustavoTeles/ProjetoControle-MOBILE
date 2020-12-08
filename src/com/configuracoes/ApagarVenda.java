@@ -3,9 +3,8 @@ package com.configuracoes;
 import com.agenda.Agenda;
 import com.auxiliares.Auxiliares;
 import com.litebase.LitebasePack;
-import com.venda.Venda;
+import com.venda.Loja;
 import litebase.ResultSet;
-import nx.componentes.ArtButton;
 import totalcross.sys.Convert;
 import totalcross.ui.Button;
 import totalcross.ui.Container;
@@ -34,9 +33,9 @@ public class ApagarVenda extends totalcross.ui.Window{
 	private Edit							editDataUm;
 	private Edit							editDataDois;
 	private Grid							gridProdutos;
-	private ArtButton 						btnVoltar;
-	private ArtButton						btnBuscar;
-	private ArtButton						btnApagar;
+	private Button 						btnVoltar;
+	private Button						btnBuscar;
+	private Button						btnApagar;
 	
 	public String							dataI;
 	public String							dataII;
@@ -85,19 +84,19 @@ public class ApagarVenda extends totalcross.ui.Window{
 			editDataDois.setBackColor(Color.WHITE);
 			editDataDois.setForeColor(0x003366);
 
-			btnBuscar = new ArtButton("BUSCAR");
+			btnBuscar = new Button("BUSCAR");
 			add(btnBuscar);
 			btnBuscar.setRect(AFTER + 5 , SAME, SCREENSIZE - 5, PREFERRED, editDataDois);
 			btnBuscar.setBackColor(0x003366);
 			btnBuscar.setForeColor(Color.WHITE);
 			
-			btnVoltar = new ArtButton("VOLTAR");
+			btnVoltar = new Button("VOLTAR");
 			add(btnVoltar);
 			btnVoltar.setRect(RIGHT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnVoltar.setBackColor(0x003366);
 			btnVoltar.setForeColor(Color.WHITE);
 			
-			btnApagar = new ArtButton("APAGAR");
+			btnApagar = new Button("APAGAR");
 			add(btnApagar);
 			btnApagar.setRect(LEFT, BOTTOM, SCREENSIZE - 4, PREFERRED + 15);
 			btnApagar.setBackColor(0xDF0101);
@@ -167,7 +166,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 
 			
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO","Erro ao construir a tela ApagarVenda\n" + e);
+			Auxiliares.messagebox("ERRO","Erro ao construir a tela ApagarVenda\n" + e);
 
 		}
 		
@@ -184,7 +183,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 				} else if (evt.target == btnBuscar) {
 					if (editDataUm.getText().equals("") || editDataDois.getText().equals("")) {
 
-						Auxiliares.artMsgbox("CONTROLE", "Preencha todos os campos de data à serem pesquisados!");
+						Auxiliares.messagebox("CONTROLE", "Preencha todos os campos de data à serem pesquisados!");
 						return;
 
 					} else {
@@ -192,7 +191,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 					}
 				} else if (evt.target == btnApagar) {
 					if (gridProdutos.getSelectedItem() == null) {
-						Auxiliares.artMsgbox("CONTROLE", "Deve-se selecionar uma venda!");
+						Auxiliares.messagebox("CONTROLE", "Deve-se selecionar uma venda!");
 						return;
 					} else {
 						
@@ -239,7 +238,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 						editTotal.setText( "TOTAL: " + Convert.toCurrencyString(valor, 2).replace(".", " "));
 						
 					} catch (Exception e) {
-						Auxiliares.artMsgbox("CONTROLE", "Clique em um Item!");
+						Auxiliares.messagebox("CONTROLE", "Clique em um Item!");
 					}
 
 				}
@@ -247,7 +246,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro na validação da tela relatorio\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro na validação da tela relatorio\n" + e);
 		}
 
 	}
@@ -297,7 +296,7 @@ public class ApagarVenda extends totalcross.ui.Window{
 			}
 
 		} catch (Exception e) {
-			Auxiliares.artMsgbox("ERRO", "Erro ao pesquisaVendasPorPeriodo\n" + e);
+			Auxiliares.messagebox("ERRO", "Erro ao pesquisaVendasPorPeriodo\n" + e);
 
 		}
 
